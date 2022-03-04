@@ -1,0 +1,6 @@
+LICENSE
+README.md
+kenlm.egg-info/PKG-INFO
+kenlm.egg-info/SOURCES.txt
+kenlm.egg-info/dependency_links.txt
+kenlm.egg-info/top_level.txt
