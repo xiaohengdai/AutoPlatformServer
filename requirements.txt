@@ -22,3 +22,4 @@ airtest
 APScheduler==3.7.0
 uiautomator2
 celery
+eventlet

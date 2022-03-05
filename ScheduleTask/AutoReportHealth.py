@@ -71,5 +71,6 @@ if d(text='完成').exists:
     d(text='完成').click()
 time.sleep(1)
 d(className='android.widget.EditText')[-1].click()
+d.clear_text()
 d.send_keys("湿疹不宜接种疫苗")
 d(description='提交').click()
