@@ -53,8 +53,18 @@ paddleocr安装
 Python：paddleocr库安装及使用补充:https://blog.csdn.net/Fan_shine/article/details/123089196
 
 定时任务：
+Python apscheduler库[定时器最新用法-新版2022]：https://blog.csdn.net/weixin_46765649/article/details/122454669
 Celery定时任务:https://blog.51cto.com/u_15127692/3834109
 celery中crontab参数及秒的定时任务：https://blog.csdn.net/weixin_45707730/article/details/118079548
+
+celery日志输出:（可参考 在Flask中使用Celery的最佳实践：https://www.jianshu.com/p/807efde55d81）
+-A：指定celery实例
+-f option来指定输出文件
+-l debug表示大于等于debug级别的日志输出
+worker: 启动worker进程
+
+celery异步任务（celery执行异步任务和定时任务：https://www.cnblogs.com/zhangbingsheng/p/10384517.html）
+
 开启两个终端：
 1、/Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer1/bin/python3 -m celery -A mycelery.main worker -l info -P eventlet
 2、/Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer1/bin/python3 -m celery -A mycelery.main beat -l info
