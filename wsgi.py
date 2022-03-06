@@ -1,16 +1,26 @@
 from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
-from api.vision_api import vision
 
+
+from celery import Celery
+
+from app.api.api_asyn import api_asyn
+from app.api.api_sync import api
 
 app = Flask(__name__)
 # CORS(app,  resources=r'/*')
 CORS(app, supports_credentials=True)
 # cors = CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
+app.register_blueprint(api_asyn)
+app.register_blueprint(api)
 
-app.register_blueprint(vision, url_prefix='/api')
-
+app.config['CELERY_BROKER_URL'] = 'redis://127.0.0.1:6379/1'  ## 配置消息代理的路径，如果是在远程服务器上，则配置远程服务器中redis的URL
+app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/2'  # 要存储 Celery 任务的状态或运行结果时就必须要配置
+# 初始化Celery
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+# 将Flask中的配置直接传递给Celery
+celery.conf.update(app.config)
 
 @app.errorhandler(Exception)
 def error(e):

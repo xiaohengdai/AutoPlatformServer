@@ -15,7 +15,8 @@ app.autodiscover_tasks(['mycelery.celery_task'])  # celery_task为存放tasks.py
 app.conf.beat_schedule = {
     'auto_send': {
         'task': 'test',
-        'schedule': crontab(minute='38',hour='14', day_of_week='0-6'),
+        'schedule': crontab(minute='00',hour='7', day_of_week='0-6'),
+        # 'schedule': crontab(minute='42',hour='18', day_of_week='0-6'),
         # 'schedule': crontab(minute='*/3'),
 #     'schedule':timedelta(seconds=30)   # 1 每10秒钟执行一次
         'args': ()

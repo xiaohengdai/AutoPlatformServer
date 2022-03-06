@@ -20,11 +20,14 @@ from service.image_utils import get_pop_v
 from tools.video_tools import *
 import pycorrector
 
-vision = Blueprint('vision', __name__, url_prefix='/vision')
+
+api = Blueprint('api', __name__, url_prefix='/api')
 
 
-@vision.route('/diff', methods=["POST"])
-def vision_diff():
+
+
+@api.route('/diff', methods=["POST"])
+def api_diff():
     print("request.json:",request.json)
     data = {
         "code": 0,
@@ -34,7 +37,7 @@ def vision_diff():
     return jsonify(data)
 
 
-@vision.route('/merge', methods=["POST"])
+@api.route('/merge', methods=["POST"])
 def vision_merge():
     data = {
         "code": 0,
@@ -46,7 +49,7 @@ def vision_merge():
     return jsonify(data)
 
 
-@vision.route('/similar', methods=["POST"])
+@api.route('/similar', methods=["POST"])
 def vision_similar():
     data = {
         "code": 0,
@@ -55,7 +58,7 @@ def vision_similar():
     return jsonify(data)
 
 
-@vision.route('/pop', methods=["POST"])
+@api.route('/pop', methods=["POST"])
 def vision_pop():
     data = {
         "code": 0,
@@ -64,7 +67,7 @@ def vision_pop():
     return jsonify(data)
 
 
-@vision.route('/text', methods=["POST"])
+@api.route('/text', methods=["POST"])
 def vision_text():
     data = {
         "code": 0,
@@ -75,7 +78,7 @@ def vision_text():
     return resp
 
 
-@vision.route('/ocr/start_run', methods=["POST"])
+@api.route('/ocr/start_run', methods=["POST"])
 def vision_ocr_start_run():
     file_name=request.values.get('file_name',default=time.strftime("%Y_%m_%d_%H_%M_%S"))
     if '.' not in file_name:
@@ -107,7 +110,7 @@ def vision_ocr_start_run():
     return resp
 
 
-@vision.route('/image/opencv/search', methods=["POST"])
+@api.route('/image/opencv/search', methods=["POST"])
 def image_opencv_search():
     threshold = float(request.values.get('threshold', default=0.7))
     big_image_file_name=request.values.get('big_image',default=time.strftime("%Y_%m_%d_%H_%M_%S"))
@@ -157,7 +160,7 @@ def image_opencv_search():
 
 
 
-@vision.route('/diff/start_run', methods=["POST"])
+@api.route('/diff/start_run', methods=["POST"])
 def vision_diff_start_run():
     file_name=request.values.get('file_name',default=time.strftime("%Y_%m_%d_%H_%M_%S"))
     file_name1=file_name+'_1'
@@ -211,7 +214,7 @@ def vision_diff_start_run():
     resp.headers["Content-Type"] = "application/x-www-form-urlencoded"
     return resp
 
-@vision.route('/img/cluster/start_run', methods=["POST"])
+@api.route('/img/cluster/start_run', methods=["POST"])
 def img_cluster_start_run():
     # target_main_tonal_value=request.values.get('target_value')
     # if not target_main_tonal_value:
@@ -250,7 +253,7 @@ def img_cluster_start_run():
     resp.headers["Content-Type"] = "application/x-www-form-urlencoded"
     return resp
 
-@vision.route('/wrong_word/detect', methods=["POST"])
+@api.route('/wrong_word/detect', methods=["POST"])
 def wrong_word_detect():
     text=request.values.get('text')
     print("text:",text)
@@ -268,7 +271,7 @@ def wrong_word_detect():
     resp.headers["Content-Type"] = "application/x-www-form-urlencoded"
     return resp
 
-@vision.route('/wrong_word/correct', methods=["POST"])
+@api.route('/wrong_word/correct', methods=["POST"])
 def wrong_word_correct():
     text=request.values.get('text')
     print("text:",text)
@@ -290,7 +293,7 @@ def wrong_word_correct():
     return resp
 
 #对视频进行裁剪
-@vision.route('/video/cutter', methods=["POST"])
+@api.route('/video/cutter', methods=["POST"])
 def video_cutter():
     start_time=request.values.get("start_time",default=str(1))
     stop_time=request.values.get("stop_time",default=None)
@@ -323,7 +326,7 @@ def video_cutter():
     return resp
 
 #对视频进行裁剪
-@vision.route('/video/get', methods=["POST","GET"])
+@api.route('/video/get', methods=["POST","GET"])
 def get_video():
     video_url="/Users/xh/Downloads/ks/qa-irs/time_cost_calc/test/dy-friend-2.mp4"
     data = {
@@ -338,7 +341,7 @@ def get_video():
     return  jsonify(data)
 
 
-@vision.route('/string', methods=["POST","GET"])
+@api.route('/string', methods=["POST","GET"])
 def get_string():
     video_url="/Users/xh/Downloads/ks/qa-irs/time_cost_calc/test/dy-friend-2.mp4"
     data = {
@@ -352,7 +355,7 @@ def get_string():
     # return resp
     return  jsonify(data)
 
-@vision.route('/video/getVideoInfo', methods=["POST","GET"])
+@api.route('/video/getVideoInfo', methods=["POST","GET"])
 def get_video_info():
     file_name = request.values.get('file_name', default=time.strftime("%Y_%m_%d_%H_%M_%S"))
     if '.' not in file_name:
@@ -391,4 +394,6 @@ def get_video_info():
     # print("resp:",resp)
     # return resp
     return  jsonify(data)
+
+
 

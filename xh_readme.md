@@ -1,4 +1,4 @@
- /Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer/bin/python3 -m flask run  -p 9090
+ /Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer/bin/python3 -m flask run -h 172.17.104.117 -p 9090
   
  /Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer/bin/python3 -m pip uninstall paddlepaddle
  /Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer/bin/python3 -m pip install paddlepaddle==1.8.5 -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com
@@ -64,6 +64,8 @@ celery日志输出:（可参考 在Flask中使用Celery的最佳实践：https:/
 worker: 启动worker进程
 
 celery异步任务（celery执行异步任务和定时任务：https://www.cnblogs.com/zhangbingsheng/p/10384517.html）
+
+生产环境好部署：Flask+Celery+Redis+Gunicorn+Nginx+Supervisor部署异步任务：https://zhuanlan.zhihu.com/p/383584132
 
 开启两个终端：
 1、/Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer1/bin/python3 -m celery -A mycelery.main worker -l info -P eventlet
