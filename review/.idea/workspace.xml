@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="82f0a679-bbc3-476c-b901-e4817f597aec" name="Default Changelist" comment="add content" />
+    <list default="true" id="82f0a679-bbc3-476c-b901-e4817f597aec" name="Default Changelist" comment="add content">
+      <change beforePath="$PROJECT_DIR$/中间件/Redis实现消息队列.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
