@@ -1,0 +1,1 @@
+#Python操作redis系列之 列表（list） (五)：https://www.cnblogs.com/xuchunlin/p/7067154.html

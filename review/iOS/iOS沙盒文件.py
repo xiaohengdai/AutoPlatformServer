@@ -1,0 +1,1 @@
+# iOS沙盒机制：https://www.jianshu.com/p/6d91107ddf29
