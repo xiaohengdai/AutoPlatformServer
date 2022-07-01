@@ -60,7 +60,9 @@ def get_main_tonal_rgb_value(image_path, clusters):
 
 def color_dist(c1, c2):
     """ returns the squared euklidian distance between two color vectors in hsv space """
-    return sum((a - b) ** 2 for a, b in zip(to_hsv(c1), to_hsv(c2)))
+    # return sum((a - b) ** 2 for a, b in zip(to_hsv(c1), to_hsv(c2)))
+    distance=sum((c1-c2)**2)
+    return distance
 
 def min_color_diff(color_to_match, colors):
     """
