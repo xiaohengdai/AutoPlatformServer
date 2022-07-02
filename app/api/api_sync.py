@@ -9,16 +9,16 @@ from flask import request
 from flask import Blueprint
 from flask import make_response
 from flask_cors import cross_origin
-
+from app.util.jsonUtil import json_resp
 from service.image_airtest import mark_border_img
 from service.image_cluster import reco_by_page_main_tonal_value
 from service.image_diff import ImageDiff
 from service.image_merge import Stitcher
 from service.image_similar import HashSimilar
-from service.image_text import get_image_text
+# from service.image_text import get_image_text
 from service.image_utils import get_pop_v
 from tools.video_tools import *
-import pycorrector
+# import pycorrector
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -394,6 +394,73 @@ def get_video_info():
     # print("resp:",resp)
     # return resp
     return  jsonify(data)
+
+@api.route('/video/videoFrame', methods=["POST","GET"])
+def video_rame():
+    frame_rate = int(request.values.get("frame_rate"))
+    # logger.info("frame_rate:"+str(frame_rate))
+    stage_num=int(request.values.get('stage_num'))
+    # logger.info("stage_num:"+str(stage_num))
+    pagenum = int(request.values.get("pagenum"))
+    pagesize = int(request.values.get("pagesize"))
+    file_name = request.values.get('file_name', default=time.strftime("%Y_%m_%d_%H_%M_%S"))
+    if '.' not in file_name:
+        file_name = file_name + '.mp4'
+    print("file_name:", file_name)
+    print("request.files:", request.files)
+    img_obj = request.files['file'].stream.read()
+    current_dir = os.getcwd()
+    print("current_dir:", current_dir)
+    cluster_dir = os.path.join(current_dir, "video")
+    if not os.path.exists(cluster_dir):
+        os.mkdir(cluster_dir)
+    print("cluster_dir:", cluster_dir)
+    local_img_path = os.path.join(cluster_dir, file_name)
+    print("local_img_path:", local_img_path)
+    with open(local_img_path, 'wb') as saveFp:
+        saveFp.write(img_obj)
+
+    # dest_dir=get_video_cutter(input_video_path=local_img_path, frame_count=30)
+    pic_path,frame_seq_detailed_dir,img_list=video_cutter_to_save_to_internet(input_video_path=local_img_path, frame_rate=frame_rate)
+    # img_list = os.listdir(frame_seq_detailed_dir)
+    # img_list = sorted(img_list)
+
+    video_frame=[]
+    scene_frame_pic_set=[]
+    data_list = []
+    data_dict = {}
+    for i in range (0,len(img_list)):
+        if (i>=(pagenum - 1) * pagesize) and (i<pagenum * pagesize):
+            data_dict[i + 1] = img_list[i]
+            data_list.append({"frame_num": (i + 1), "img_src": img_list[i]})
+        img_list_dict = {}
+        # img_list_dict["video_frame_"+str(i+1)]=os.path.join(dest_dir,img_list[i])
+        img_list_dict['frame_num']=str(i+1)
+        img_list_dict['img_src'] = img_list[i]
+        video_frame.append(img_list_dict)
+        scene_frame_pic_set.append(img_list[i])
+
+    mainFormData = {}
+    formItemList = []
+    scene_start_frame_index=[]
+    scene_end_frame_index=[]
+    for i in range(0, stage_num):
+        form_item_dict = {"label": "第" + str(i + 1) + '阶段起始帧', "key": "start_" + str(i + 1)}
+        formItemList.append(form_item_dict)
+        mainFormData["start_" + str(i + 1)] = -1
+        scene_start_frame_index.append(mainFormData["start_" + str(i + 1)])
+        form_item_dict = {"label": "第" + str(i + 1) + '阶段结束帧', "key": "end_" + str(i + 1)}
+        formItemList.append(form_item_dict)
+        mainFormData["end_" + str(i + 1)] = -1
+        scene_end_frame_index.append(mainFormData["end_" + str(i + 1)])
+    videoFrameDetailed = VideoFrameDetailed(scene_frame_pic_set=scene_frame_pic_set, updated_time=datetime.datetime.now,stage_num=stage_num,frame_rate=frame_rate,scene_start_frame_index=scene_start_frame_index,scene_end_frame_index=scene_end_frame_index,mainFormData=mainFormData)
+
+    videoFrameDetailed.save()
+    job_id = videoFrameDetailed.job_id
+    # print("video_frame:",video_frame)
+
+    return  json_resp(data={"video_frame":data_list,"total":len(img_list),"job_id":job_id,"mainFormData":mainFormData,"formItemList":formItemList}, msg="success")
+
 
 
 

@@ -1,6 +1,6 @@
 opencv-python==4.2.0.32
 numpy==1.19.1
-Flask==2.0.3
+Flask==1.0.2
 Flask-Cors
 pillow==7.1.0
 paddlepaddle
@@ -13,6 +13,8 @@ moviepy==1.0.3
 pydub==0.25.1
 opencv-contrib-python==4.5.2.54
 ffmpy3==0.2.4
+pycorrector
+kenlm
 Scikit-Image
 sklearn
 imagehash
@@ -23,5 +25,3 @@ celery
 eventlet
 redis
 flask_sqlalchemy
-jinja2==3.1.1
-peewee
