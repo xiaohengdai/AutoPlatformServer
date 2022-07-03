@@ -7,8 +7,12 @@ from celery import Celery
 
 from app.api.api_asyn import api_asyn
 from app.api.api_sync import api
+from app.config import config
+from app.logs import setup_log
+from app.util.model import db
 
 app = Flask(__name__)
+app.config.from_object(config)
 # CORS(app,  resources=r'/*')
 CORS(app, supports_credentials=True)
 # cors = CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
@@ -21,6 +25,19 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/2'  # 要存储 Ce
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 # 将Flask中的配置直接传递给Celery
 celery.conf.update(app.config)
+setup_log("testing")  #使用日志
+
+@app.before_request
+def _db_connect():
+    db.connect()
+
+# This hook ensures that the connection is closed when we've finished
+# processing the request.
+@app.teardown_request
+def _db_close(exc):
+    if not db.is_closed():
+        db.close()
+
 
 @app.errorhandler(Exception)
 def error(e):

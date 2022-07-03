@@ -70,3 +70,13 @@ celery异步任务（celery执行异步任务和定时任务：https://www.cnblo
 开启两个终端：
 1、/Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer1/bin/python3 -m celery -A mycelery.main worker -l info -P eventlet
 2、/Users/xh/Downloads/ks/AutoPlatformServer/venv_AutoPlatformServer1/bin/python3 -m celery -A mycelery.main beat -l info
+
+
+peewee:
+Python | peewee.InterfaceError:https://blog.csdn.net/yimtcode/article/details/125392636
+钩子函数解决peewee没连接上db:Flask的钩子函数与peewee.InterfaceError: (0, ''):https://blog.csdn.net/mouday/article/details/85332510
+
+nb-log:
+在python_request 中 nb-log 日志模块的使用，应用到项目实际使用:https://www.cnblogs.com/123anqier-blog/p/13406702.html
+
+flask的logging日志：https://blog.csdn.net/dreams_dream/article/details/125042220

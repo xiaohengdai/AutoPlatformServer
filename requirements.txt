@@ -25,3 +25,5 @@ redis
 flask_sqlalchemy
 jinja2==3.1.1
 peewee
+pymysql
+nb_log
